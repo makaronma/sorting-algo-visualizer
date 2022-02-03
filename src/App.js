@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { getRandomInt } from "./util";
-import DataVisualizer from "./components/DataVisualizer";
+import React, { useState } from "react";
+import DataDisplayBoard from "./components/DataDisplayBoard";
+import ControlPanel from "./components/ControlPanel";
 import "./styles/app.css";
+import InfoDisplayBoard from "./components/InfoDisplayBoard";
 
 function App() {
   const [dataset, setDataSet] = useState([]);
-
-  const handleStart=()=>{
-    genRanData(300);
-  }
-
-  const genRanData = (numOfData) => {
-    const newDataset = [];
-    for (let i = 0; i < numOfData; i++) {
-      newDataset.push(getRandomInt(1, 1000));
-    }
-    setDataSet(newDataset);
-  };
+  const [comparison, setComparison] = useState(0);
 
   return (
     <>
-      <button onClick={handleStart}>Start generate</button>
-      {dataset.length && <DataVisualizer dataset={dataset} />}
+      <ControlPanel
+        dataset={dataset}
+        setDataSet={setDataSet}
+        comparison={comparison}
+        setComparison={setComparison}
+      />
+      
+      <InfoDisplayBoard comparison={comparison}/>
+      {dataset.length ? <DataDisplayBoard dataset={dataset} /> : null}
     </>
   );
 }

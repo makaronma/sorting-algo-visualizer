@@ -1,5 +1,5 @@
-#displayBoard {
-  height: 50vh;
+#dataDisplayBoard {
+  height: 70vh;
   width: 80%;
   /* display: flex; */
 }
