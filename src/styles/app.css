@@ -1,0 +1,11 @@
+#displayBoard {
+  height: 50vh;
+  width: 80%;
+  /* display: flex; */
+}
+
+.dataContainer {
+  display: inline-block;
+  background-color: black;
+  margin-top: auto;
+}

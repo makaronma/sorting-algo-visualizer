@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { getRandomInt } from "./util";
+import DataVisualizer from "./components/DataVisualizer";
+import "./styles/app.css";
 
 function App() {
+  const [dataset, setDataSet] = useState([]);
+
+  const handleStart=()=>{
+    genRanData(300);
+  }
+
+  const genRanData = (numOfData) => {
+    const newDataset = [];
+    for (let i = 0; i < numOfData; i++) {
+      newDataset.push(getRandomInt(1, 1000));
+    }
+    setDataSet(newDataset);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <button onClick={handleStart}>Start generate</button>
+      {dataset.length && <DataVisualizer dataset={dataset} />}
+    </>
   );
 }
 
