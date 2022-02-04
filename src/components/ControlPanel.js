@@ -9,12 +9,17 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   const [order, setOrder] = useState();
   const [count, setCount] = useState(0);
   const [sorting, setSorting] = useState(false);
+  // Buttons
+  const [sortBtnEnable, setSortBtnEnable] = useState(true);
 
   const test = () => {};
 
   useEffect(() => {
     if (!sorting) return;
-    if (count >= order.length) return;
+    if (count >= order.length) {
+      setSortBtnEnable(true);
+      return;
+    }
 
     const visualizerInterval = setInterval(() => {
       setDataSet((prev) => {
@@ -42,7 +47,10 @@ const ControlPanel = ({ dataset, setDataSet }) => {
 
   // ------Handle Button Click------
   const handleGenBtnClick = () => genRanData(dataSizeRef.current.value);
-  const handleSortBtnClick = () => sortData();
+  const handleSortBtnClick = () => {
+    setSortBtnEnable(false);
+    sortData();
+  };
 
   // -------------Functions-------------
   //
@@ -92,6 +100,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
     console.log(`Generated Dataset: `);
     console.log(newDataset);
     setDataSet(newDataset);
+    setSortBtnEnable(true);
   };
 
   // Get orders from algorithms
@@ -112,7 +121,9 @@ const ControlPanel = ({ dataset, setDataSet }) => {
     <>
       Data Size: <input type="number" ref={dataSizeRef} />
       <button onClick={handleGenBtnClick}>Start Generate</button>
-      <button onClick={handleSortBtnClick}>Start Sort</button>
+      <button onClick={handleSortBtnClick} disabled={!sortBtnEnable}>
+        Start Sort
+      </button>
       <button onClick={test}>test</button>
     </>
   );
