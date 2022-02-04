@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { getRandomInt, isObj } from "../util";
-import selectionSort from "../algorithms/selectionSort";
+import { selectionSort, bubbleSort, insertionSort } from "../algorithms";
 
 const ControlPanel = ({ dataset, setDataSet }) => {
   // --------------States--------------
@@ -56,7 +56,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   //
   const sortData = () => {
     setCount(0);
-    const { newDataset, order } = sort("selectionSort");
+    const { newDataset, order } = sort("bubbleSort");
     console.log("====New===");
     console.log(order);
     console.log(newDataset);
@@ -110,7 +110,12 @@ const ControlPanel = ({ dataset, setDataSet }) => {
       case "selectionSort":
         result = selectionSort(dataset);
         break;
-
+      case "bubbleSort":
+        result = bubbleSort(dataset);
+        break;
+      case "insertionSort":
+        result = insertionSort(dataset);
+        break;
       default:
         break;
     }

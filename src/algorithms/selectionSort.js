@@ -1,7 +1,11 @@
 import { getDeepCloneData } from "../util";
 
-const selectionSort = (dataset) => {
-  let newDataset = getDeepCloneData(dataset);
+const swap = (m, n) => {
+  [m.val, n.val] = [n.val, m.val];
+};
+
+const selectionSort = (originDataset) => {
+  let newDataset = getDeepCloneData(originDataset);
   const order = [];
 
   for (let i = 0; i < newDataset.length - 1; i++) {
@@ -17,10 +21,7 @@ const selectionSort = (dataset) => {
       }
     }
     if (minIndex !== i) {
-      [newDataset[minIndex].val, newDataset[i].val] = [
-        newDataset[i].val,
-        newDataset[minIndex].val,
-      ];
+      swap(newDataset[minIndex], newDataset[i]);
       order.push({ m: minIndex, n: i });
     }
   }
