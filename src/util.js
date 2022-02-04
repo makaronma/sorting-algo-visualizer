@@ -17,4 +17,8 @@ const getDeepCloneData = (dataset) => {
   return newDataset;
 };
 
-export { getRandomInt, getDeepCloneData };
+const isObj = (variable) => {
+  return typeof variable === "object" && variable !== null;
+};
+
+export { getRandomInt, getDeepCloneData, isObj };

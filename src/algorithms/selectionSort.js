@@ -1,4 +1,4 @@
-import {getDeepCloneData} from "../util";
+import { getDeepCloneData } from "../util";
 
 const selectionSort = (dataset) => {
   let newDataset = getDeepCloneData(dataset);
@@ -21,6 +21,7 @@ const selectionSort = (dataset) => {
         newDataset[i].val,
         newDataset[minIndex].val,
       ];
+      order.push({ m: minIndex, n: i });
     }
   }
 

@@ -1,26 +1,80 @@
-import React, { useState, useRef } from "react";
-import { getRandomInt } from "../util";
+import React, { useState, useRef, useEffect } from "react";
+import { getRandomInt, isObj } from "../util";
 import selectionSort from "../algorithms/selectionSort";
 
 const ControlPanel = ({ dataset, setDataSet }) => {
   // --------------States--------------
   // Define Size of Data Set in text box
   const dataSizeRef = useRef();
+  const [order, setOrder] = useState();
+  const [count, setCount] = useState(0);
+  const [sorting, setSorting] = useState(false);
+
+  const test = () => {};
+
+  useEffect(() => {
+    if (!sorting) return;
+    if (count >= order.length) return;
+
+    const visualizerInterval = setInterval(() => {
+      setDataSet((prev) => {
+        const newDataset = [...prev];
+        // console.log(order[count]);
+        // console.log(isObj(order[count]));
+
+        //swap
+        if (isObj(order[count])) {
+          [newDataset[order[count].m].val, newDataset[order[count].n].val] = [
+            newDataset[order[count].n].val,
+            newDataset[order[count].m].val,
+          ];
+        }
+
+        changeColor(newDataset);
+        return newDataset;
+      });
+
+      setCount((prev) => prev + 1);
+    }, 1);
+
+    return () => clearInterval(visualizerInterval);
+  });
 
   // ------Handle Button Click------
   const handleGenBtnClick = () => genRanData(dataSizeRef.current.value);
-  const handleSortBtnClick = () => {
+  const handleSortBtnClick = () => sortData();
+
+  // -------------Functions-------------
+  //
+  const sortData = () => {
+    setCount(0);
     const { newDataset, order } = sort("selectionSort");
     console.log("====New===");
     console.log(order);
     console.log(newDataset);
     console.log("==========");
-    setDataSet(newDataset)
+
+    // setDataSet(newDataset);
+
+    setOrder(order);
+    setSorting(true);
   };
 
-  // -------------Functions-------------
+  const changeColor = (newDataset) => {
+    // Change current data to red
+    if (!isObj(order[count])) {
+      newDataset[order[count]].isUsing = true;
+    }
+
+    // Change prev data to black
+    if (count - 1 >= 0 && !isObj(order[count - 1])) {
+      newDataset[order[count - 1]].isUsing = false;
+    }
+  };
+
   // Generate Random Dataset
   const genRanData = (numOfData) => {
+    setSorting(false);
     if (numOfData <= 0) {
       console.log("Number of data must be more than 0");
       return;
@@ -39,14 +93,6 @@ const ControlPanel = ({ dataset, setDataSet }) => {
     console.log(newDataset);
     setDataSet(newDataset);
   };
-
-  // For Change Color when sorting
-  // const setDataContainerColor = (id) => {
-  //   const newDataset = [...dataset];
-  //   const data = newDataset.find((data) => data.id === id);
-  //   data.isUsing = true;
-  //   setDataSet(newDataset);
-  // };
 
   // Get orders from algorithms
   const sort = (algo) => {
@@ -67,6 +113,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
       Data Size: <input type="number" ref={dataSizeRef} />
       <button onClick={handleGenBtnClick}>Start Generate</button>
       <button onClick={handleSortBtnClick}>Start Sort</button>
+      <button onClick={test}>test</button>
     </>
   );
 };
