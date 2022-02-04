@@ -6,6 +6,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   // --------------States--------------
   // Define Size of Data Set in text box
   const dataSizeRef = useRef();
+  const [algoChoice, setAlgoChoice] = useState("selectionSort");
   const [order, setOrder] = useState();
   const [count, setCount] = useState(0);
   const [sorting, setSorting] = useState(false);
@@ -59,7 +60,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
 
   const sortData = () => {
     setCount(0);
-    const { newDataset, order } = sort("insertionSort");
+    const { newDataset, order } = sort();
     console.log("====New===");
     console.log(order);
     console.log(newDataset);
@@ -107,9 +108,9 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   };
 
   // Get orders from algorithms
-  const sort = (algo) => {
+  const sort = () => {
     let result;
-    switch (algo) {
+    switch (algoChoice) {
       case "selectionSort":
         result = selectionSort(dataset);
         break;
@@ -125,14 +126,31 @@ const ControlPanel = ({ dataset, setDataSet }) => {
     return result;
   };
 
+  const handleChangeAlgoChoice = (e) => {
+    setAlgoChoice(e.target.value);
+  };
+
   return (
     <>
       Data Size: <input type="number" ref={dataSizeRef} />
       <button onClick={handleGenBtnClick}>Start Generate</button>
-      <button onClick={handleSortBtnClick} disabled={!sortBtnEnable}>
-        Start Sort
-      </button>
-      <button onClick={test}>test</button>
+      {/* {<button onClick={test}>test</button>} */}
+      <div>
+        <label htmlFor="SortAlgoSelect">Choose Sorting Algorithm: </label>
+        <select
+          name="SortAlgoSelect"
+          onChange={handleChangeAlgoChoice}
+          value={algoChoice}
+        >
+          <option value="selectionSort">Selection Sort</option>
+          <option value="bubbleSort">Bubble Sort</option>
+          <option value="insertionSort">Insertion Sort</option>
+        </select>
+
+        <button onClick={handleSortBtnClick} disabled={!sortBtnEnable}>
+          Start Sort
+        </button>
+      </div>
     </>
   );
 };
