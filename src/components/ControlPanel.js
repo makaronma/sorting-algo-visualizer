@@ -6,6 +6,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   // --------------States--------------
   // Define Size of Data Set in text box
   const dataSizeRef = useRef();
+  const speedRef = useRef();
   const [algoChoice, setAlgoChoice] = useState("selectionSort");
   const [order, setOrder] = useState();
   const [count, setCount] = useState(0);
@@ -21,7 +22,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
       setSortBtnEnable(true);
       return;
     }
-    const visualizerInterval = setInterval(() => animate(), 40);
+    const visualizerInterval = setInterval(() => animate(), speedRef.current.value);
 
     return () => clearInterval(visualizerInterval);
   });
@@ -146,7 +147,9 @@ const ControlPanel = ({ dataset, setDataSet }) => {
           <option value="bubbleSort">Bubble Sort</option>
           <option value="insertionSort">Insertion Sort</option>
         </select>
-
+      </div>
+      <div>
+        Speed: <input type="number" ref={speedRef} />
         <button onClick={handleSortBtnClick} disabled={!sortBtnEnable}>
           Start Sort
         </button>
