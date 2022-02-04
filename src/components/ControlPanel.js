@@ -40,7 +40,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
       });
 
       setCount((prev) => prev + 1);
-    }, 1);
+    }, 40);
 
     return () => clearInterval(visualizerInterval);
   });
