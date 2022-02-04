@@ -6,18 +6,17 @@ import InfoDisplayBoard from "./components/InfoDisplayBoard";
 
 function App() {
   const [dataset, setDataSet] = useState([]);
-  const [comparison, setComparison] = useState(0);
+  const [info, setInfo] = useState({ numOfComparison: 0, numOfArrAccessed: 0 });
 
   return (
     <>
       <ControlPanel
         dataset={dataset}
         setDataSet={setDataSet}
-        comparison={comparison}
-        setComparison={setComparison}
+        info={info}
+        setInfo={setInfo}
       />
-      
-      <InfoDisplayBoard comparison={comparison}/>
+      <InfoDisplayBoard info={info} />
       {dataset.length ? <DataDisplayBoard dataset={dataset} /> : null}
     </>
   );
