@@ -20,27 +20,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
       setSortBtnEnable(true);
       return;
     }
-
-    const visualizerInterval = setInterval(() => {
-      setDataSet((prev) => {
-        const newDataset = [...prev];
-        // console.log(order[count]);
-        // console.log(isObj(order[count]));
-
-        //swap
-        if (isObj(order[count])) {
-          [newDataset[order[count].m].val, newDataset[order[count].n].val] = [
-            newDataset[order[count].n].val,
-            newDataset[order[count].m].val,
-          ];
-        }
-
-        changeColor(newDataset);
-        return newDataset;
-      });
-
-      setCount((prev) => prev + 1);
-    }, 40);
+    const visualizerInterval = setInterval(() => animate(), 40);
 
     return () => clearInterval(visualizerInterval);
   });
@@ -53,10 +33,33 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   };
 
   // -------------Functions-------------
-  //
+  const animate = () => {
+    setDataSet((prevDataset) => {
+      const newDataset = [...prevDataset];
+      if (isObj(order[count])) {
+        switch (order[count].do) {
+          case "swap":
+            [newDataset[order[count].m].val, newDataset[order[count].n].val] = [
+              newDataset[order[count].n].val,
+              newDataset[order[count].m].val,
+            ];
+            break;
+          case "assign":
+            newDataset[order[count].index].val = order[count].val;
+            break;
+          default:
+            break;
+        }
+      }
+      changeColor(newDataset);
+      return newDataset;
+    });
+    setCount((prev) => prev + 1);
+  };
+
   const sortData = () => {
     setCount(0);
-    const { newDataset, order } = sort("bubbleSort");
+    const { newDataset, order } = sort("insertionSort");
     console.log("====New===");
     console.log(order);
     console.log(newDataset);

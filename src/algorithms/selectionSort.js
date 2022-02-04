@@ -22,7 +22,7 @@ const selectionSort = (originDataset) => {
     }
     if (minIndex !== i) {
       swap(newDataset[minIndex], newDataset[i]);
-      order.push({ m: minIndex, n: i });
+      order.push({ do: "swap", m: minIndex, n: i });
     }
   }
 

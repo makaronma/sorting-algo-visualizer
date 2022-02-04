@@ -13,13 +13,12 @@ const bubbleSort = (originDataset) => {
     for (let j = 0; j < newDataset.length - i - 1; j++) {
       order.push(j);
       if (newDataset[j].val > newDataset[j + 1].val) {
-        order.push({ m: j, n: j + 1 });
+        order.push({ do: "swap", m: j, n: j + 1 });
         swap(newDataset[j], newDataset[j + 1]);
       }
     }
   }
   return { newDataset, order };
 };
-
 
 export default bubbleSort;

@@ -12,10 +12,12 @@ const insertionSort = (originDataset) => {
 
     while (j >= 0 && newDataset[j].val > key) {
       order.push(j);
+      order.push({ do: "assign", index: j + 1, val: newDataset[j].val });
+
       newDataset[j + 1].val = newDataset[j].val;
       j = j - 1;
     }
-    // order.push({ m: i, n: j + 1 });
+    order.push({ do: "assign", index: j + 1, val: key });
     newDataset[j + 1].val = key;
   }
 
