@@ -56,16 +56,14 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   };
 
   const changeData = (newDataset) => {
-    
     // Change to default color first
     if (count > 0) {
       const prevOrder = orders[count - 1];
       newDataset[prevOrder.m].state = "default";
       newDataset[prevOrder.n].state = "default";
     }
-    
+
     const order = orders[count];
-    console.log(order);
     const { m, n } = order;
     switch (order.do) {
       case "compare":
@@ -113,7 +111,12 @@ const ControlPanel = ({ dataset, setDataSet }) => {
 
     const newDataset = [];
     for (let i = 0; i < numOfData; i++) {
-      newDataset.push({ id: i, val: getRandomInt(1, 1000), isUsing: false });
+      newDataset.push({
+        id: i,
+        val: getRandomInt(1, 1000),
+        isUsing: false,
+        state: "default",
+      });
     }
 
     console.log(`Generated Dataset: `);

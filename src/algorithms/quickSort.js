@@ -33,7 +33,7 @@ const quickSort = (originDataset) => {
 
   const sort = (arr, start, end) => {
     // Base case or terminating case
-    order.push({ do: "compare", m: start, n: end });
+    // order.push({ do: "compare", m: start, n: end });
     if (start >= end) {
       return;
     }
