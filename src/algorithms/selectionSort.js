@@ -26,6 +26,7 @@ const selectionSort = (originDataset) => {
     }
     order.push({ do: "complete", index: i });
   }
+  order.push({ do: "complete", index: newDataset.length - 1 });
 
   return { newDataset, order };
 };

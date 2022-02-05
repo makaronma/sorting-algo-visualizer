@@ -6,7 +6,12 @@ import React from "react";
 // Num of Arrays accessed
 
 const InfoDisplayBoard = ({ info }) => {
-  return <div>Number of Comparisons: {info.numOfComparison}</div>;
+  return (
+    <div>
+      <div>Number of Comparisons: {info.numOfComparison}</div>
+      <div>Number of Swap: {info.numOfSwap}</div>
+    </div>
+  );
 };
 
 export default InfoDisplayBoard;

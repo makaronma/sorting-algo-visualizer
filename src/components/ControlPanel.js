@@ -86,6 +86,7 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
         ];
         newDataset[m].state = "swapping";
         newDataset[n].state = "swapping";
+        addNumOfSwap();
         break;
       default:
         break;
@@ -109,7 +110,7 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
   // Generate Random Dataset
   const genRanData = (numOfData) => {
     setSorting(false);
-    setInfo({ numOfComparison: 0, numOfArrAccessed: 0 });
+    setInfo({ numOfComparison: 0, numOfArrAccessed: 0, numOfSwap: 0 });
     if (numOfData <= 0) {
       console.log("Number of data must be more than 0");
       return;
@@ -162,6 +163,9 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
   };
   const addNumOfArrAccessed = () => {
     setInfo({ ...info, numOfArrAccessed: info.numOfArrAccessed + 1 });
+  };
+  const addNumOfSwap = () => {
+    setInfo({ ...info, numOfSwap: info.numOfSwap + 1 });
   };
 
   const handleChangeAlgoChoice = (e) => {
