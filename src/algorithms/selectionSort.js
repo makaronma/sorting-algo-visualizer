@@ -24,9 +24,6 @@ const selectionSort = (originDataset) => {
       swap(newDataset[minIndex], newDataset[i]);
       order.push({ do: "swap", m: minIndex, n: i });
     }
-  }
-
-  for (let i = 0; i < newDataset.length; i++) {
     order.push({ do: "complete", index: i });
   }
 

@@ -18,12 +18,10 @@ const bubbleSort = (originDataset) => {
         swap(newDataset[j], newDataset[j + 1]);
       }
     }
+    order.push({ do: "complete", index: newDataset.length - i - 1 });
   }
+  order.push({ do: "complete", index: 0 });
 
-  for (let i = 0; i < newDataset.length; i++) {
-    order.push({ do: "complete", index: i });
-  }
-  
   return { newDataset, order };
 };
 
