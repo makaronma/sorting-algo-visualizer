@@ -8,7 +8,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   const dataSizeRef = useRef();
   const speedRef = useRef();
   const [algoChoice, setAlgoChoice] = useState("selectionSort");
-  const [order, setOrder] = useState();
+  const [orders, setOrder] = useState();
   const [count, setCount] = useState(0);
   const [sorting, setSorting] = useState(false);
   const [sortBtnEnable, setSortBtnEnable] = useState(true);
@@ -18,11 +18,10 @@ const ControlPanel = ({ dataset, setDataSet }) => {
     speedRef.current.value = 10;
   }, []);
 
-  // const test = () => {};
-
+  // Run this in every cycle
   useEffect(() => {
     if (!sorting) return;
-    if (count >= order.length) {
+    if (count >= orders.length) {
       setSortBtnEnable(true);
       return;
     }
@@ -46,45 +45,45 @@ const ControlPanel = ({ dataset, setDataSet }) => {
     setDataSet((prevDataset) => {
       const newDataset = [...prevDataset];
       changeData(newDataset);
-      changeColor(newDataset);
       return newDataset;
     });
     setCount((prev) => prev + 1);
   };
 
   const changeData = (newDataset) => {
-    if (isObj(order[count])) {
-      switch (order[count].do) {
-        case "swap":
-          [newDataset[order[count].m].val, newDataset[order[count].n].val] = [
-            newDataset[order[count].n].val,
-            newDataset[order[count].m].val,
-          ];
-          break;
-        case "assign":
-          newDataset[order[count].index].val = order[count].val;
-          break;
-        default:
-          break;
-      }
-    }
-  };
-
-  const changeColor = (newDataset) => {
-    // Change current data to red
-    if (!isObj(order[count])) {
-      newDataset[order[count]].isUsing = true;
+    // Change to default color first
+    if (count > 0) {
+      const prevOrder = orders[count - 1];
+      newDataset[prevOrder.m].state = "default";
+      newDataset[prevOrder.n].state = "default";
     }
 
-    // Change prev data to black
-    if (count - 1 >= 0 && !isObj(order[count - 1])) {
-      newDataset[order[count - 1]].isUsing = false;
+    const order = orders[count];
+    const { m, n } = order;
+    switch (order.do) {
+      case "compare":
+        newDataset[m].state = "comparing";
+        newDataset[n].state = "comparing";
+        break;
+      case "swap":
+        [newDataset[m].val, newDataset[n].val] = [
+          newDataset[n].val,
+          newDataset[m].val,
+        ];
+        newDataset[m].state = "swapping";
+        newDataset[n].state = "swapping";
+        break;
+      case "assign":
+        newDataset[order.index].val = order.val;
+        break;
+      default:
+        break;
     }
   };
 
   const sortData = () => {
     setCount(0);
-    const { newDataset, order } = sort();
+    const { newDataset, order } = getSortResult();
     console.log("====New===");
     console.log(order);
     console.log(newDataset);
@@ -120,7 +119,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   };
 
   // Get orders from algorithms
-  const sort = () => {
+  const getSortResult = () => {
     let result;
     switch (algoChoice) {
       case "selectionSort":

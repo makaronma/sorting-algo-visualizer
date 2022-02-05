@@ -9,12 +9,13 @@ const selectionSort = (originDataset) => {
   const order = [];
 
   for (let i = 0; i < newDataset.length - 1; i++) {
-    order.push(i);
+    // order.push({ do: "compare", index: i });
     let min = newDataset[i].val;
     let minIndex = i;
 
     for (let j = i + 1; j < newDataset.length; j++) {
-      order.push(j);
+      order.push({ do: "compare", m: j, n: minIndex });
+      
       if (newDataset[j].val < min) {
         min = newDataset[j].val;
         minIndex = j;
