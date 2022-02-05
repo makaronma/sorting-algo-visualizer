@@ -7,7 +7,7 @@ import React from "react";
 
 const InfoDisplayBoard = ({ info }) => {
   return (
-    <div>
+    <div id="InfoDisplayBoard">
       <div>Comparisons: {info.numOfComparison}</div>
       <div>Swaps: {info.numOfSwap}</div>
     </div>

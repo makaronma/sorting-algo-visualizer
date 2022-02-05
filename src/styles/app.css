@@ -8,17 +8,43 @@
   color: var(--white);
   box-sizing: border-box;
 }
-.appTitle {
+#appTitle {
   text-align: center;
+}
+
+.upperArea {
+  padding: 0 5%;
 }
 
 #dataDisplayBoard {
   padding: 0 5%;
   width: 90%;
-  aspect-ratio: 1.5 / 1;
-  max-height: 50vh;
+  height: 45vh;
 }
 
+#controlPanel {
+  font-size: 1.2rem;
+}
+#controlPanel div {
+  margin-bottom: 1rem;
+}
+
+input,
+select {
+  margin-right: 1rem;
+}
+input {
+  width: 5rem;
+}
+
+#InfoDisplayBoard {
+  margin-bottom: 2rem;
+}
+#InfoDisplayBoard div {
+  margin-bottom: 1rem;
+}
+
+/* ======Data Visualization Display====== */
 .dataContainer {
   display: inline-block;
   margin-top: auto;
@@ -35,18 +61,4 @@
 }
 .done {
   background-color: var(--green);
-}
-#controlPanel {
-  font-size: 18px;
-}
-#controlPanel div {
-  margin-bottom: 1rem;
-}
-
-input,
-select {
-  margin-right: 1rem;
-}
-input {
-  width: 5rem;
 }

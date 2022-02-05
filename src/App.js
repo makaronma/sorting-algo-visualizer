@@ -14,14 +14,16 @@ function App() {
 
   return (
     <>
-      <h1 class="appTitle">Sorting Algorithm Visualizer</h1>
-      <ControlPanel
-        dataset={dataset}
-        setDataSet={setDataSet}
-        info={info}
-        setInfo={setInfo}
-      />
-      <InfoDisplayBoard info={info} />
+      <h1 id="appTitle">Sorting Algorithm Visualizer</h1>
+      <div className="upperArea">
+        <ControlPanel
+          dataset={dataset}
+          setDataSet={setDataSet}
+          info={info}
+          setInfo={setInfo}
+        />
+        <InfoDisplayBoard info={info} />
+      </div>
       {dataset.length ? <DataDisplayBoard dataset={dataset} /> : null}
     </>
   );
