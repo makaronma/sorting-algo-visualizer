@@ -28,6 +28,9 @@ const quickSort = (originDataset) => {
     // Putting the pivot value in the middle
     order.push({ do: "swap", m: pivotIndex, n: end });
     swap(arr[pivotIndex], arr[end]);
+    
+    order.push({ do: "complete", index: pivotIndex });
+
     return pivotIndex;
   };
 
@@ -44,6 +47,9 @@ const quickSort = (originDataset) => {
     // Recursively apply the same logic to the left and right subarrays
     sort(arr, start, index - 1);
     sort(arr, index + 1, end);
+    
+    order.push({ do: "complete", index: end });
+    order.push({ do: "complete", index: start });
   };
 
   sort(newDataset, 0, newDataset.length - 1);
