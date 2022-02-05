@@ -19,6 +19,11 @@ const bubbleSort = (originDataset) => {
       }
     }
   }
+
+  for (let i = 0; i < newDataset.length; i++) {
+    order.push({ do: "complete", index: i });
+  }
+  
   return { newDataset, order };
 };
 

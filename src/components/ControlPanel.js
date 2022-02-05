@@ -7,7 +7,7 @@ import {
   quickSort,
 } from "../algorithms";
 
-const ControlPanel = ({ dataset, setDataSet }) => {
+const ControlPanel = ({ dataset, setDataSet, setInfo }) => {
   // --------------States--------------
   // Define Size of Data Set in text box
   const dataSizeRef = useRef();
@@ -56,19 +56,28 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   };
 
   const changeData = (newDataset) => {
+    const order = orders[count];
+    const { m, n, index } = order;
+    // console.log(order); // For Debug
+
     // Change to default color first
-    if (count > 0) {
-      const prevOrder = orders[count - 1];
+    const prevOrder = orders[count - 1];
+    if (count > 0 && prevOrder.do !== "complete") {
       newDataset[prevOrder.m].state = "default";
       newDataset[prevOrder.n].state = "default";
     }
 
-    const order = orders[count];
-    const { m, n } = order;
+    if (order.accessedNewArr) {
+      addNumOfArrAccessed();
+    }
     switch (order.do) {
+      case "complete":
+        newDataset[index].state = "done";
+        break;
       case "compare":
         newDataset[m].state = "comparing";
         newDataset[n].state = "comparing";
+        addNumOfComparision();
         break;
       case "swap":
         [newDataset[m].val, newDataset[n].val] = [
@@ -100,6 +109,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   // Generate Random Dataset
   const genRanData = (numOfData) => {
     setSorting(false);
+    setInfo({ numOfComparison: 0, numOfArrAccessed: 0 });
     if (numOfData <= 0) {
       console.log("Number of data must be more than 0");
       return;
@@ -145,6 +155,17 @@ const ControlPanel = ({ dataset, setDataSet }) => {
         break;
     }
     return result;
+  };
+
+  const addNumOfComparision = () => {
+    setInfo((prev) => {
+      return { ...prev, numOfComparison: prev.numOfComparison + 1 };
+    });
+  };
+  const addNumOfArrAccessed = () => {
+    setInfo((prev) => {
+      return { ...prev, numOfArrAccessed: prev.numOfArrAccessed + 1 };
+    });
   };
 
   const handleChangeAlgoChoice = (e) => {

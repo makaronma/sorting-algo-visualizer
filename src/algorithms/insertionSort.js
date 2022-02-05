@@ -25,6 +25,10 @@ const insertionSort = (originDataset) => {
     newDataset[j + 1].val = key;
   }
 
+  for (let i = 0; i < newDataset.length; i++) {
+    order.push({ do: "complete", index: i });
+  }
+
   return { newDataset, order };
 };
 

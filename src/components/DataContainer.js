@@ -4,6 +4,7 @@ const stateColor = {
   default: "black",
   comparing: "red",
   swapping: "yellow",
+  done: "green",
 };
 
 const DataContainer = ({ data, numOfData }) => {

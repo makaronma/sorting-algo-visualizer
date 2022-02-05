@@ -5,8 +5,8 @@ import React from "react";
 // Num of Comparison
 // Num of Arrays accessed
 
-const InfoDisplayBoard = ({ comparison }) => {
-  return <div>comparison: {comparison}</div>;
+const InfoDisplayBoard = ({ info }) => {
+  return <div>Number of Comparisons: {info.numOfComparison}</div>;
 };
 
 export default InfoDisplayBoard;
