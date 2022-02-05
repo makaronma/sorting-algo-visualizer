@@ -11,10 +11,14 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   const [order, setOrder] = useState();
   const [count, setCount] = useState(0);
   const [sorting, setSorting] = useState(false);
-  // Buttons
   const [sortBtnEnable, setSortBtnEnable] = useState(true);
+  // Set Default Value of input box
+  useEffect(() => {
+    dataSizeRef.current.value = 20;
+    speedRef.current.value = 10;
+  }, []);
 
-  const test = () => {};
+  // const test = () => {};
 
   useEffect(() => {
     if (!sorting) return;
@@ -22,7 +26,10 @@ const ControlPanel = ({ dataset, setDataSet }) => {
       setSortBtnEnable(true);
       return;
     }
-    const visualizerInterval = setInterval(() => animate(), speedRef.current.value);
+    const visualizerInterval = setInterval(
+      () => animate(),
+      speedRef.current.value
+    );
 
     return () => clearInterval(visualizerInterval);
   });
@@ -38,25 +45,41 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   const animate = () => {
     setDataSet((prevDataset) => {
       const newDataset = [...prevDataset];
-      if (isObj(order[count])) {
-        switch (order[count].do) {
-          case "swap":
-            [newDataset[order[count].m].val, newDataset[order[count].n].val] = [
-              newDataset[order[count].n].val,
-              newDataset[order[count].m].val,
-            ];
-            break;
-          case "assign":
-            newDataset[order[count].index].val = order[count].val;
-            break;
-          default:
-            break;
-        }
-      }
+      changeData(newDataset);
       changeColor(newDataset);
       return newDataset;
     });
     setCount((prev) => prev + 1);
+  };
+
+  const changeData = (newDataset) => {
+    if (isObj(order[count])) {
+      switch (order[count].do) {
+        case "swap":
+          [newDataset[order[count].m].val, newDataset[order[count].n].val] = [
+            newDataset[order[count].n].val,
+            newDataset[order[count].m].val,
+          ];
+          break;
+        case "assign":
+          newDataset[order[count].index].val = order[count].val;
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  const changeColor = (newDataset) => {
+    // Change current data to red
+    if (!isObj(order[count])) {
+      newDataset[order[count]].isUsing = true;
+    }
+
+    // Change prev data to black
+    if (count - 1 >= 0 && !isObj(order[count - 1])) {
+      newDataset[order[count - 1]].isUsing = false;
+    }
   };
 
   const sortData = () => {
@@ -71,18 +94,6 @@ const ControlPanel = ({ dataset, setDataSet }) => {
 
     setOrder(order);
     setSorting(true);
-  };
-
-  const changeColor = (newDataset) => {
-    // Change current data to red
-    if (!isObj(order[count])) {
-      newDataset[order[count]].isUsing = true;
-    }
-
-    // Change prev data to black
-    if (count - 1 >= 0 && !isObj(order[count - 1])) {
-      newDataset[order[count - 1]].isUsing = false;
-    }
   };
 
   // Generate Random Dataset
@@ -137,7 +148,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
       <button onClick={handleGenBtnClick}>Start Generate</button>
       {/* {<button onClick={test}>test</button>} */}
       <div>
-        <label htmlFor="SortAlgoSelect">Choose Sorting Algorithm: </label>
+        <label htmlFor="SortAlgoSelect">Sorting Algorithm: </label>
         <select
           name="SortAlgoSelect"
           onChange={handleChangeAlgoChoice}
