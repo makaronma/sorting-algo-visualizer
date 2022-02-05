@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { getRandomInt, isObj } from "../util";
-import { selectionSort, bubbleSort, insertionSort } from "../algorithms";
+import {
+  selectionSort,
+  bubbleSort,
+  insertionSort,
+  quickSort,
+} from "../algorithms";
 
 const ControlPanel = ({ dataset, setDataSet }) => {
   // --------------States--------------
@@ -51,14 +56,16 @@ const ControlPanel = ({ dataset, setDataSet }) => {
   };
 
   const changeData = (newDataset) => {
+    
     // Change to default color first
     if (count > 0) {
       const prevOrder = orders[count - 1];
       newDataset[prevOrder.m].state = "default";
       newDataset[prevOrder.n].state = "default";
     }
-
+    
     const order = orders[count];
+    console.log(order);
     const { m, n } = order;
     switch (order.do) {
       case "compare":
@@ -72,9 +79,6 @@ const ControlPanel = ({ dataset, setDataSet }) => {
         ];
         newDataset[m].state = "swapping";
         newDataset[n].state = "swapping";
-        break;
-      case "assign":
-        newDataset[order.index].val = order.val;
         break;
       default:
         break;
@@ -131,6 +135,9 @@ const ControlPanel = ({ dataset, setDataSet }) => {
       case "insertionSort":
         result = insertionSort(dataset);
         break;
+      case "quickSort":
+        result = quickSort(dataset);
+        break;
       default:
         break;
     }
@@ -156,6 +163,7 @@ const ControlPanel = ({ dataset, setDataSet }) => {
           <option value="selectionSort">Selection Sort</option>
           <option value="bubbleSort">Bubble Sort</option>
           <option value="insertionSort">Insertion Sort</option>
+          <option value="quickSort">Quick Sort</option>
         </select>
       </div>
       <div>
