@@ -14,6 +14,7 @@ function App() {
 
   return (
     <>
+      <h1 class="appTitle">Sorting Algorithm Visualizer</h1>
       <ControlPanel
         dataset={dataset}
         setDataSet={setDataSet}

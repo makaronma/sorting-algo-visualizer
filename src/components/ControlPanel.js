@@ -16,7 +16,7 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
   const [orders, setOrder] = useState();
   const [count, setCount] = useState(0);
   const [sorting, setSorting] = useState(false);
-  const [sortBtnEnable, setSortBtnEnable] = useState(true);
+  const [sortBtnEnable, setSortBtnEnable] = useState(false);
   // Set Default Value of input box
   useEffect(() => {
     dataSizeRef.current.value = 20;
@@ -173,12 +173,14 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
   };
 
   return (
-    <>
-      Data Size: <input type="number" ref={dataSizeRef} />
-      <button onClick={handleGenBtnClick}>Start Generate</button>
-      {/* {<button onClick={test}>test</button>} */}
+    <div id="controlPanel">
       <div>
-        <label htmlFor="SortAlgoSelect">Sorting Algorithm: </label>
+        <label>Data Size: </label>
+        <input type="number" ref={dataSizeRef} />
+        <button onClick={handleGenBtnClick}>Start Generate</button>
+      </div>
+      <div>
+        <label>Sorting Algorithm: </label>
         <select
           name="SortAlgoSelect"
           onChange={handleChangeAlgoChoice}
@@ -191,12 +193,13 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
         </select>
       </div>
       <div>
-        Speed: <input type="number" ref={speedRef} />
+        <label>Speed: </label>
+        <input type="number" ref={speedRef} />
         <button onClick={handleSortBtnClick} disabled={!sortBtnEnable}>
           Start Sort
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

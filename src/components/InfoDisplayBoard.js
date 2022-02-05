@@ -8,8 +8,8 @@ import React from "react";
 const InfoDisplayBoard = ({ info }) => {
   return (
     <div>
-      <div>Number of Comparisons: {info.numOfComparison}</div>
-      <div>Number of Swap: {info.numOfSwap}</div>
+      <div>Comparisons: {info.numOfComparison}</div>
+      <div>Swaps: {info.numOfSwap}</div>
     </div>
   );
 };
