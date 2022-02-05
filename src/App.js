@@ -13,6 +13,7 @@ function App() {
       <ControlPanel
         dataset={dataset}
         setDataSet={setDataSet}
+        info={info}
         setInfo={setInfo}
       />
       <InfoDisplayBoard info={info} />

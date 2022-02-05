@@ -7,7 +7,7 @@ import {
   quickSort,
 } from "../algorithms";
 
-const ControlPanel = ({ dataset, setDataSet, setInfo }) => {
+const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
   // --------------States--------------
   // Define Size of Data Set in text box
   const dataSizeRef = useRef();
@@ -58,7 +58,7 @@ const ControlPanel = ({ dataset, setDataSet, setInfo }) => {
   const changeData = (newDataset) => {
     const order = orders[count];
     const { m, n, index } = order;
-    // console.log(order); // For Debug
+    console.log(order); // For Debug
 
     // Change to default color first
     const prevOrder = orders[count - 1];
@@ -158,14 +158,10 @@ const ControlPanel = ({ dataset, setDataSet, setInfo }) => {
   };
 
   const addNumOfComparision = () => {
-    setInfo((prev) => {
-      return { ...prev, numOfComparison: prev.numOfComparison + 1 };
-    });
+    setInfo({ ...info, numOfComparison: info.numOfComparison + 1 });
   };
   const addNumOfArrAccessed = () => {
-    setInfo((prev) => {
-      return { ...prev, numOfArrAccessed: prev.numOfArrAccessed + 1 };
-    });
+    setInfo({ ...info, numOfArrAccessed: info.numOfArrAccessed + 1 });
   };
 
   const handleChangeAlgoChoice = (e) => {
