@@ -32,7 +32,7 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
     }
     const visualizerInterval = setInterval(
       () => animate(),
-      speedRef.current.value
+      1000 / speedRef.current.value
     );
 
     return () => clearInterval(visualizerInterval);
@@ -194,7 +194,7 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
       </div>
       <div>
         <label>Speed: </label>
-        <input type="number" ref={speedRef} />
+        <input className="slider" type="range" min="1" max="100" ref={speedRef} />
         <button onClick={handleSortBtnClick} disabled={!sortBtnEnable}>
           Start Sort
         </button>

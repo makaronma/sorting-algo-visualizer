@@ -36,6 +36,9 @@ select {
 input {
   width: 5rem;
 }
+.slider{
+  width: 10rem;
+}
 
 #InfoDisplayBoard {
   margin-bottom: 2rem;
