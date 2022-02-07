@@ -6,6 +6,7 @@ import InfoDisplayBoard from "./components/InfoDisplayBoard";
 
 function App() {
   const [dataset, setDataSet] = useState([]);
+  const [sortedDataset, setSortedDataset] = useState([]);
   const [info, setInfo] = useState({
     numOfComparison: 0,
     numOfArrAccessed: 0,
@@ -19,10 +20,10 @@ function App() {
         <ControlPanel
           dataset={dataset}
           setDataSet={setDataSet}
-          info={info}
+          setSortedDataset={setSortedDataset}
           setInfo={setInfo}
         />
-        <InfoDisplayBoard info={info} />
+        <InfoDisplayBoard info={info} sortedDataset={sortedDataset} />
       </div>
       {dataset.length ? <DataDisplayBoard dataset={dataset} /> : null}
     </>
