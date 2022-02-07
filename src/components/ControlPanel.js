@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { getRandomInt, isObj } from "../util";
 import {
   selectionSort,
@@ -9,59 +9,57 @@ import {
 
 const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
   // --------------States--------------
-  // Define Size of Data Set in text box
+  // Handle Inputs
   const dataSizeRef = useRef();
   const speedRef = useRef();
   const [algoChoice, setAlgoChoice] = useState("selectionSort");
-  const [orders, setOrder] = useState();
-  const [count, setCount] = useState(0);
-  const [sorting, setSorting] = useState(false);
+  const [isSorting, setIsSorting] = useState(false);
   const [sortBtnEnable, setSortBtnEnable] = useState(false);
-  // Set Default Value of input box
+  // For animation
+  const [orderList, setOrderList] = useState([]);
+  const [count, setCount] = useState(0);
+  // For isSorting
+  const [sortedDataset, setSortedDataset] = useState([]);
+
+  // Set Default Value for input box
   useEffect(() => {
     dataSizeRef.current.value = 20;
     speedRef.current.value = 10;
   }, []);
 
+  // -----------------Hooks for Animation-----------------
   // Run this in every cycle
   useEffect(() => {
-    if (!sorting) return;
-    if (count >= orders.length) {
+    if (!isSorting) return;
+    if (count >= orderList.length) {
       setSortBtnEnable(true);
       return;
     }
-    const visualizerInterval = setInterval(
-      () => animate(),
-      1000 / speedRef.current.value
-    );
+
+    const visualizerInterval = setInterval(() => {
+      animate();
+      setCount((prev) => prev + 1);
+    }, 1000 / speedRef.current.value);
 
     return () => clearInterval(visualizerInterval);
   });
 
-  // ------Handle Button Click------
-  const handleGenBtnClick = () => genRanData(dataSizeRef.current.value);
-  const handleSortBtnClick = () => {
-    setSortBtnEnable(false);
-    sortData();
-  };
-
-  // -------------Functions-------------
+  // -----------------Functions for Animation-----------------
   const animate = () => {
     setDataSet((prevDataset) => {
       const newDataset = [...prevDataset];
       changeData(newDataset);
       return newDataset;
     });
-    setCount((prev) => prev + 1);
   };
 
   const changeData = (newDataset) => {
-    const order = orders[count];
+    const order = orderList[count];
     const { m, n, index } = order;
     console.log(order); // For Debug
 
     // Change to default color first
-    const prevOrder = orders[count - 1];
+    const prevOrder = orderList[count - 1];
     if (count > 0 && prevOrder.do !== "complete") {
       newDataset[prevOrder.m].state = "default";
       newDataset[prevOrder.n].state = "default";
@@ -93,23 +91,35 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
     }
   };
 
+  // --------------------Implement Sorting--------------------
+  // Get a list of orderList from isSorting result
   const sortData = () => {
-    setCount(0);
-    const { newDataset, order } = getSortResult();
-    console.log("====New===");
-    console.log(order);
-    console.log(newDataset);
-    console.log("==========");
-
-    // setDataSet(newDataset);
-
-    setOrder(order);
-    setSorting(true);
+    const { newDataset, newOrderList } = getSortResult();
+    setOrderList(newOrderList); // to SET orderList of intructions for Animation
+    setCount(0); // to RESTART Animation Counter
+    setIsSorting(true); // to Disable 'Start Sort' Button
+    setSortedDataset(newDataset); // to SHOW Sorted Dataset
   };
 
-  // Generate Random Dataset
+  // GET Sorting Result{ newDataset, orderlist } from algorithms
+  const getSortResult = () => {
+    switch (algoChoice) {
+      case "selectionSort":
+        return selectionSort(dataset);
+      case "bubbleSort":
+        return bubbleSort(dataset);
+      case "insertionSort":
+        return insertionSort(dataset);
+      case "quickSort":
+        return quickSort(dataset);
+      default:
+        return;
+    }
+  };
+
+  // -----------------GENERATE Random Dataset-----------------
   const genRanData = (numOfData) => {
-    setSorting(false);
+    setIsSorting(false);
     setInfo({ numOfComparison: 0, numOfArrAccessed: 0, numOfSwap: 0 });
     if (numOfData <= 0) {
       console.log("Number of data must be more than 0");
@@ -136,28 +146,7 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
     setSortBtnEnable(true);
   };
 
-  // Get orders from algorithms
-  const getSortResult = () => {
-    let result;
-    switch (algoChoice) {
-      case "selectionSort":
-        result = selectionSort(dataset);
-        break;
-      case "bubbleSort":
-        result = bubbleSort(dataset);
-        break;
-      case "insertionSort":
-        result = insertionSort(dataset);
-        break;
-      case "quickSort":
-        result = quickSort(dataset);
-        break;
-      default:
-        break;
-    }
-    return result;
-  };
-
+  // ------------------Update Info to Display------------------
   const addNumOfComparision = () => {
     setInfo({ ...info, numOfComparison: info.numOfComparison + 1 });
   };
@@ -168,10 +157,17 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
     setInfo({ ...info, numOfSwap: info.numOfSwap + 1 });
   };
 
+  // ------------------Handle Input Area------------------
+  const handleGenBtnClick = () => genRanData(dataSizeRef.current.value);
+  const handleSortBtnClick = () => {
+    setSortBtnEnable(false);
+    sortData();
+  };
   const handleChangeAlgoChoice = (e) => {
     setAlgoChoice(e.target.value);
   };
 
+  // ------------------------Layout------------------------
   return (
     <div id="controlPanel">
       <div>
@@ -194,7 +190,13 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
       </div>
       <div>
         <label>Speed: </label>
-        <input className="slider" type="range" min="1" max="100" ref={speedRef} />
+        <input
+          className="slider"
+          type="range"
+          min="1"
+          max="100"
+          ref={speedRef}
+        />
         <button onClick={handleSortBtnClick} disabled={!sortBtnEnable}>
           Start Sort
         </button>
@@ -204,3 +206,7 @@ const ControlPanel = ({ dataset, setDataSet, info, setInfo }) => {
 };
 
 export default ControlPanel;
+
+// TODO:
+// 1: show input error message
+// 2: show original data & sorted data

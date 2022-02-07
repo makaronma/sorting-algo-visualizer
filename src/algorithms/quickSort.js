@@ -7,17 +7,17 @@ const swap = (m, n) => {
 const quickSort = (originDataset) => {
   console.log("====Quick Sort====");
   let newDataset = getDeepCloneData(originDataset);
-  const order = [];
+  const newOrderList = [];
 
   const partition = (arr, start, end) => {
     // Taking the last element as the pivot
     const pivotValue = arr[end].val;
     let pivotIndex = start;
     for (let i = start; i < end; i++) {
-      order.push({ do: "compare", m: i, n: end });
+      newOrderList.push({ do: "compare", m: i, n: end });
 
       if (arr[i].val < pivotValue) {
-        order.push({ do: "swap", m: i, n: pivotIndex });
+        newOrderList.push({ do: "swap", m: i, n: pivotIndex });
         swap(arr[i], arr[pivotIndex]);
 
         // Moving to next element
@@ -26,17 +26,17 @@ const quickSort = (originDataset) => {
     }
 
     // Putting the pivot value in the middle
-    order.push({ do: "swap", m: pivotIndex, n: end });
+    newOrderList.push({ do: "swap", m: pivotIndex, n: end });
     swap(arr[pivotIndex], arr[end]);
     
-    order.push({ do: "complete", index: pivotIndex });
+    newOrderList.push({ do: "complete", index: pivotIndex });
 
     return pivotIndex;
   };
 
   const sort = (arr, start, end) => {
     // Base case or terminating case
-    // order.push({ do: "compare", m: start, n: end });
+    // newOrderList.push({ do: "compare", m: start, n: end });
     if (start >= end) {
       return;
     }
@@ -48,13 +48,13 @@ const quickSort = (originDataset) => {
     sort(arr, start, index - 1);
     sort(arr, index + 1, end);
     
-    order.push({ do: "complete", index: end });
-    order.push({ do: "complete", index: start });
+    newOrderList.push({ do: "complete", index: end });
+    newOrderList.push({ do: "complete", index: start });
   };
 
   sort(newDataset, 0, newDataset.length - 1);
 
-  return { newDataset, order };
+  return { newDataset, newOrderList };
 };
 
 export default quickSort;

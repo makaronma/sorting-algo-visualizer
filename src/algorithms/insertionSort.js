@@ -6,7 +6,7 @@ const swap = (m, n) => {
 
 const insertionSort = (originDataset) => {
   let newDataset = getDeepCloneData(originDataset);
-  const order = [];
+  const newOrderList = [];
   let key, keyIndex, j;
 
   for (let i = 1; i < newDataset.length; i++) {
@@ -14,9 +14,9 @@ const insertionSort = (originDataset) => {
     keyIndex = i;
     j = i - 1;
 
-    order.push({ do: "compare", m: j, n: keyIndex });
+    newOrderList.push({ do: "compare", m: j, n: keyIndex });
     while (j >= 0 && newDataset[j].val > key) {
-      order.push({ do: "swap", m: j, n: j + 1 });
+      newOrderList.push({ do: "swap", m: j, n: j + 1 });
       swap(newDataset[j], newDataset[j + 1]);
 
       j = j - 1;
@@ -26,10 +26,10 @@ const insertionSort = (originDataset) => {
   }
 
   for (let i = 0; i < newDataset.length; i++) {
-    order.push({ do: "complete", index: i });
+    newOrderList.push({ do: "complete", index: i });
   }
 
-  return { newDataset, order };
+  return { newDataset, newOrderList };
 };
 
 export default insertionSort;

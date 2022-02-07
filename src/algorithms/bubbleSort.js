@@ -6,23 +6,23 @@ const swap = (m, n) => {
 
 const bubbleSort = (originDataset) => {
   let newDataset = getDeepCloneData(originDataset);
-  const order = [];
+  const newOrderList = [];
 
   for (let i = 0; i < newDataset.length - 1; i++) {
     for (let j = 0; j < newDataset.length - i - 1; j++) {
-      order.push({ do: "compare", m: j, n: j + 1 });
+      newOrderList.push({ do: "compare", m: j, n: j + 1 });
 
       if (newDataset[j].val > newDataset[j + 1].val) {
-        order.push({ do: "swap", m: j, n: j + 1 });
+        newOrderList.push({ do: "swap", m: j, n: j + 1 });
 
         swap(newDataset[j], newDataset[j + 1]);
       }
     }
-    order.push({ do: "complete", index: newDataset.length - i - 1 });
+    newOrderList.push({ do: "complete", index: newDataset.length - i - 1 });
   }
-  order.push({ do: "complete", index: 0 });
+  newOrderList.push({ do: "complete", index: 0 });
 
-  return { newDataset, order };
+  return { newDataset, newOrderList };
 };
 
 export default bubbleSort;

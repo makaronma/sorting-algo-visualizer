@@ -6,14 +6,14 @@ const swap = (m, n) => {
 
 const selectionSort = (originDataset) => {
   let newDataset = getDeepCloneData(originDataset);
-  const order = [];
+  const newOrderList = [];
 
   for (let i = 0; i < newDataset.length - 1; i++) {
     let min = newDataset[i].val;
     let minIndex = i;
 
     for (let j = i + 1; j < newDataset.length; j++) {
-      order.push({ do: "compare", m: j, n: minIndex });
+      newOrderList.push({ do: "compare", m: j, n: minIndex });
 
       if (newDataset[j].val < min) {
         min = newDataset[j].val;
@@ -22,13 +22,13 @@ const selectionSort = (originDataset) => {
     }
     if (minIndex !== i) {
       swap(newDataset[minIndex], newDataset[i]);
-      order.push({ do: "swap", m: minIndex, n: i });
+      newOrderList.push({ do: "swap", m: minIndex, n: i });
     }
-    order.push({ do: "complete", index: i });
+    newOrderList.push({ do: "complete", index: i });
   }
-  order.push({ do: "complete", index: newDataset.length - 1 });
+  newOrderList.push({ do: "complete", index: newDataset.length - 1 });
 
-  return { newDataset, order };
+  return { newDataset, newOrderList };
 };
 
 export default selectionSort;
