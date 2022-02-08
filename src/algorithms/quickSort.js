@@ -5,7 +5,6 @@ const swap = (m, n) => {
 };
 
 const quickSort = (originDataset) => {
-  console.log("====Quick Sort====");
   let newDataset = getDeepCloneData(originDataset);
   const newOrderList = [];
 

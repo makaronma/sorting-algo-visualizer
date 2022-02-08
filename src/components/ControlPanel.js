@@ -38,13 +38,12 @@ const ControlPanel = ({
     }
 
     const visualizerInterval = setInterval(() => {
-      console.log(oriDataset);
       visualize(setDataSet, setInfo, orderList, count);
       setCount((prev) => prev + 1);
     }, 1000 / speedRef.current.value);
 
     return () => clearInterval(visualizerInterval);
-  }, [isSorting, orderList, count, setInfo, setDataSet]);
+  }, [isSorting, orderList, count, setInfo, setDataSet, oriDataset]);
 
   // ------------------Handle Input Area------------------
   const handleGenBtnClick = () => {
@@ -118,7 +117,3 @@ const ControlPanel = ({
 };
 
 export default ControlPanel;
-
-// TODO:
-// 1: show input error message
-// 3: add reset sort btn
