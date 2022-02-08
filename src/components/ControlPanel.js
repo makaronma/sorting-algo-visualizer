@@ -2,10 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { genRanData } from "../helper/dataInitializer";
 import { sortData } from "../helper/sorter";
 import { visualize } from "../helper/visualizer";
+import { getDeepCloneData } from "../util";
 
 const ControlPanel = ({
   dataset,
   setDataSet,
+  oriDataset,
+  setOriDataset,
   setInfo,
   setSortedDataset,
 }) => {
@@ -35,6 +38,7 @@ const ControlPanel = ({
     }
 
     const visualizerInterval = setInterval(() => {
+      console.log(oriDataset);
       visualize(setDataSet, setInfo, orderList, count);
       setCount((prev) => prev + 1);
     }, 1000 / speedRef.current.value);
@@ -44,20 +48,32 @@ const ControlPanel = ({
 
   // ------------------Handle Input Area------------------
   const handleGenBtnClick = () => {
-    genRanData(dataSizeRef.current.value, setDataSet);
+    genRanData(dataSizeRef.current.value, setDataSet, setOriDataset);
 
     setIsSorting(false);
     setInfo({ numOfComparison: 0, numOfArrAccessed: 0, numOfSwap: 0 });
     setSortBtnEnable(true);
   };
+
+  const handleChangeAlgoChoice = (e) => {
+    setAlgoChoice(e.target.value);
+  };
+
   const handleSortBtnClick = () => {
-    setSortBtnEnable(false);
     sortData(setOrderList, setSortedDataset, algoChoice, dataset);
+
+    setSortBtnEnable(false);
     setCount(0); // to RESTART Animation Counter
     setIsSorting(true); // to Disable 'Start Sort' Button
   };
-  const handleChangeAlgoChoice = (e) => {
-    setAlgoChoice(e.target.value);
+
+  const handleResetSortClick = () => {
+    setDataSet(getDeepCloneData(oriDataset));
+
+    setCount(0); // to RESTART Animation Counter
+    setIsSorting(false); // to Disable 'Start Sort' Button
+    setInfo({ numOfComparison: 0, numOfArrAccessed: 0, numOfSwap: 0 });
+    setSortBtnEnable(true);
   };
 
   // ------------------------Layout------------------------
@@ -66,7 +82,7 @@ const ControlPanel = ({
       <div>
         <label>Data Size: </label>
         <input type="number" ref={dataSizeRef} />
-        <button onClick={handleGenBtnClick}>Start Generate</button>
+        <button onClick={handleGenBtnClick}>Generate</button>
       </div>
       <div>
         <label>Sorting Algorithm: </label>
@@ -91,7 +107,10 @@ const ControlPanel = ({
           ref={speedRef}
         />
         <button onClick={handleSortBtnClick} disabled={!sortBtnEnable}>
-          Start Sort
+          Sort
+        </button>
+        <button onClick={handleResetSortClick} disabled={!isSorting}>
+          Reset
         </button>
       </div>
     </div>
@@ -102,5 +121,4 @@ export default ControlPanel;
 
 // TODO:
 // 1: show input error message
-// 2: show original data & sorted data
-// 3: add stop sort btn
+// 3: add reset sort btn

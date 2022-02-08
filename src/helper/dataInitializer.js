@@ -1,6 +1,6 @@
-import { getRandomInt } from "../util";
+import { getRandomInt, getDeepCloneData } from "../util";
 // -----------------GENERATE Random Dataset-----------------
-const genRanData = (numOfData, setDataSet) => {
+const genRanData = (numOfData, setDataSet, setOriDataset) => {
   if (numOfData <= 0) {
     console.log("Number of data must be more than 0");
     return;
@@ -23,6 +23,7 @@ const genRanData = (numOfData, setDataSet) => {
   console.log(`Generated Dataset: `);
   console.log(newDataset);
   setDataSet(newDataset);
+  setOriDataset(getDeepCloneData(newDataset));
 };
 
 export { genRanData };

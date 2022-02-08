@@ -11,6 +11,7 @@ const getDeepCloneData = (dataset) => {
       id: dataset[i].id,
       val: dataset[i].val,
       isUsing: dataset[i].isUsing,
+      state: dataset[i].state,
     });
   }
 

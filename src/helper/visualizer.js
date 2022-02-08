@@ -3,7 +3,7 @@ const visualize = (setDataSet, setInfo, orderList, count) => {
   const changeData = (newDataset) => {
     const order = orderList[count];
     const { m, n, index } = order;
-    console.log(order); // For Debug
+    // console.log(order); // For Debug
 
     // Change to default color first
     const prevOrder = orderList[count - 1];

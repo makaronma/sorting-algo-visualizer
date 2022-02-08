@@ -8,6 +8,9 @@ import {
 // --------------------Implement Sorting--------------------
 // Get a list of orderList from isSorting result
 const sortData = (setOrderList, setSortedDataset, algoChoice, dataset) => {
+  dataset.forEach((data) => {
+    data.state = "default";
+  });
   const { newDataset, newOrderList } = getSortResult(algoChoice, dataset);
   setOrderList(newOrderList); // to SET orderList of intructions for Animation
   setSortedDataset(newDataset); // to SHOW Sorted Dataset

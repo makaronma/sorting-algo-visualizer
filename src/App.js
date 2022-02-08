@@ -7,6 +7,7 @@ import DataListDisplay from "./components/DataListDisplay";
 
 function App() {
   const [dataset, setDataSet] = useState([]);
+  const [oriDataset, setOriDataset] = useState([]);
   const [sortedDataset, setSortedDataset] = useState([]);
   const [info, setInfo] = useState({
     numOfComparison: 0,
@@ -21,6 +22,8 @@ function App() {
         <ControlPanel
           dataset={dataset}
           setDataSet={setDataSet}
+          oriDataset={oriDataset}
+          setOriDataset={setOriDataset}
           setSortedDataset={setSortedDataset}
           setInfo={setInfo}
         />
