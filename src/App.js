@@ -3,6 +3,7 @@ import DataDisplayBoard from "./components/DataDisplayBoard";
 import ControlPanel from "./components/ControlPanel";
 import "./styles/app.css";
 import InfoDisplayBoard from "./components/InfoDisplayBoard";
+import DataListDisplay from "./components/DataListDisplay";
 
 function App() {
   const [dataset, setDataSet] = useState([]);
@@ -23,9 +24,10 @@ function App() {
           setSortedDataset={setSortedDataset}
           setInfo={setInfo}
         />
-        <InfoDisplayBoard info={info} sortedDataset={sortedDataset} />
+        <InfoDisplayBoard info={info} />
       </div>
       {dataset.length ? <DataDisplayBoard dataset={dataset} /> : null}
+      <DataListDisplay dataset={dataset} sortedDataset={sortedDataset} />
     </>
   );
 }

@@ -6,8 +6,14 @@
   --orange: #ff8600;
   background: var(--dark-blue);
   color: var(--white);
+}
+* {
   box-sizing: border-box;
 }
+body {
+  margin: 8px 0;
+}
+
 #appTitle {
   text-align: center;
 }
@@ -18,7 +24,7 @@
 
 #dataDisplayBoard {
   padding: 0 5%;
-  width: 90%;
+  width: 100%;
   height: 45vh;
 }
 
@@ -36,7 +42,7 @@ select {
 input {
   width: 5rem;
 }
-.slider{
+.slider {
   width: 10rem;
 }
 
@@ -64,4 +70,14 @@ input {
 }
 .done {
   background-color: var(--green);
+}
+
+.dataValList {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 5%;
+}
+.dataValList > div {
+  margin-right: 3rem;
 }
