@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { genRanData } from "../helper/dataInitializer";
 import { sortData } from "../helper/sorter";
 import { visualize } from "../helper/visualizer";
@@ -37,13 +37,12 @@ const ControlPanel = ({
       return;
     }
 
-    const visualizerInterval = setInterval(() => {
-      visualize(setDataSet, setInfo, orderList, count);
-      setCount((prev) => prev + 1);
+    const visualizerTimeout = setTimeout(() => {
+      visualize(dataset, setDataSet, setInfo, orderList, count, setCount);
     }, 1000 / speedRef.current.value);
 
-    return () => clearInterval(visualizerInterval);
-  }, [isSorting, orderList, count, setInfo, setDataSet, oriDataset]);
+    return () => clearTimeout(visualizerTimeout);
+  }, [dataset, isSorting, orderList, count, setInfo, setDataSet, oriDataset]);
 
   // ------------------Handle Input Area------------------
   const handleGenBtnClick = () => {
