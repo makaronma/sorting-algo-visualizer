@@ -20,8 +20,6 @@ const genRanData = (numOfData, setDataSet, setOriDataset) => {
     });
   }
 
-  // console.log(`Generated Dataset: `);
-  // console.log(newDataset);
   setDataSet(newDataset);
   setOriDataset(getDeepCloneData(newDataset));
 };

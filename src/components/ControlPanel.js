@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { genRanData } from "../helper/dataInitializer";
 import { sortData } from "../helper/sorter";
 import { visualize } from "../helper/visualizer";
@@ -38,7 +38,7 @@ const ControlPanel = ({
     }
 
     const visualizerTimeout = setTimeout(() => {
-      visualize(dataset, setDataSet, setInfo, orderList, count, setCount);
+      visualize(setDataSet, setInfo, orderList, count, setCount);
     }, 1000 / speedRef.current.value);
 
     return () => clearTimeout(visualizerTimeout);

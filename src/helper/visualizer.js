@@ -1,24 +1,19 @@
 // -----------------Functions for Visualization-----------------
-const visualize = (
-  dataset,
-  setDataSet,
-  setInfo,
-  orderList,
-  count,
-  setCount
-) => {
+const visualize = (setDataSet, setInfo, orderList, count, setCount) => {
+  const order = orderList[count];
+
   setDataSet((prevDataset) => {
     const newDataset = [...prevDataset];
-    return changeData(newDataset, orderList, count, setInfo);
+    return updateData(newDataset, orderList, count);
   });
+  updateInfo(order, setInfo);
 
   setCount((prev) => prev + 1);
 };
 
-const changeData = (newDataset, orderList, count, setInfo) => {
+const updateData = (newDataset, orderList, count) => {
   const order = orderList[count];
   const { m, n, index } = order;
-  console.log(order); // For Debug
 
   // Change to default color first
   const prevOrder = orderList[count - 1];
@@ -26,11 +21,6 @@ const changeData = (newDataset, orderList, count, setInfo) => {
     newDataset[prevOrder.m].state = "default";
     newDataset[prevOrder.n].state = "default";
   }
-
-  // if (order.accessedNewArr) {
-  //   addNumOfArrAccessed(setInfo);
-  // }
-
   switch (order.do) {
     case "complete":
       newDataset[index].state = "done";
@@ -38,8 +28,6 @@ const changeData = (newDataset, orderList, count, setInfo) => {
     case "compare":
       newDataset[m].state = "comparing";
       newDataset[n].state = "comparing";
-
-      // addNumOfComparision(setInfo);
       break;
     case "swap":
       [newDataset[m].val, newDataset[n].val] = [
@@ -48,27 +36,31 @@ const changeData = (newDataset, orderList, count, setInfo) => {
       ];
       newDataset[m].state = "swapping";
       newDataset[n].state = "swapping";
-      // addNumOfSwap(setInfo);
       break;
     default:
       break;
   }
-
   return newDataset;
 };
 
 // ------------------Update Info to Display------------------
+const updateInfo = (order, setInfo) => {
+  switch (order.do) {
+    case "compare":
+      addNumOfComparision(setInfo);
+      break;
+    case "swap":
+      addNumOfSwap(setInfo);
+      break;
+    default:
+      break;
+  }
+};
+
 const addNumOfComparision = (setInfo) => {
-  console.log("add");
   setInfo((prevInfo) => ({
     ...prevInfo,
     numOfComparison: prevInfo.numOfComparison + 1,
-  }));
-};
-const addNumOfArrAccessed = (setInfo) => {
-  setInfo((prevInfo) => ({
-    ...prevInfo,
-    numOfArrAccessed: prevInfo.numOfArrAccessed + 1,
   }));
 };
 const addNumOfSwap = (setInfo) => {
