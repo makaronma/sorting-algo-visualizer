@@ -1,3 +1,3 @@
 # sorting-algo-visualizer
 ## Live Demo
-https://mkron-sorting-algo-visualizer.herokuapp.com/
+https://makaronma.github.io/sorting-algo-visualizer/
